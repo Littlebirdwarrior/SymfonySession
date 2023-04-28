@@ -21,16 +21,19 @@ class Module
     #[ORM\ManyToOne(inversedBy: 'modules')]
     private ?Category $category = null;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Programme::class)]
-    private Collection $programmes;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Programme::class)]
+    private Collection $programmes;
 
     public function __construct()
     {
         $this->programmes = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -61,6 +64,24 @@ class Module
         return $this;
     }
 
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
     /**
      * @return Collection<int, Programme>
      */
@@ -87,23 +108,6 @@ class Module
                 $programme->setModule(null);
             }
         }
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->title;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }

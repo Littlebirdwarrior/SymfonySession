@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProgrammeRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProgrammeRepository::class)]
@@ -14,8 +13,8 @@ class Programme
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $moduleDuration = null;
+    #[ORM\Column]
+    private ?int $moduleDuration = null;
 
     #[ORM\ManyToOne(inversedBy: 'programmes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,12 +29,12 @@ class Programme
         return $this->id;
     }
 
-    public function getModuleDuration(): ?\DateTimeInterface
+    public function getModuleDuration(): ?int
     {
         return $this->moduleDuration;
     }
 
-    public function setModuleDuration(\DateTimeInterface $moduleDuration): self
+    public function setModuleDuration(int $moduleDuration): self
     {
         $this->moduleDuration = $moduleDuration;
 
@@ -64,10 +63,5 @@ class Programme
         $this->session = $session;
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->module . " dure " . $this->moduleDuration . " dans la session " . $this->session;
     }
 }
