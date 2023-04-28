@@ -24,6 +24,9 @@ class Module
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Programme::class)]
     private Collection $programmes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->programmes = new ArrayCollection();
@@ -91,5 +94,17 @@ class Module
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }
