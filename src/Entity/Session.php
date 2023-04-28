@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
 use App\Entity\Intern;
+use DateTimeInterface;
 use App\Entity\Formation;
 use App\Entity\Programme;
 use Doctrine\DBAL\Types\Types;
@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SessionRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Polyfill\Intl\Icu\IntlDateFormatter;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -203,7 +204,18 @@ class Session
     public function __toString()
     {
         date_default_timezone_set('Europe/Paris');
+        //je recupére mes objet datetime
+        $start = $this->startDate;
+        $end = $this->endDate;
 
-        return $this->title . " (" . $this->startDate->format('d-m-Y h:i:s') . " - "   . $this->endDate->format('d-m-Y h:i:s') . ")";
+        //je formate mes objetS
+        $frenchStartDate = IntlDateFormatter::formatObject(
+            $start, IntlDateFormatter::FULL, 'fr_FR');
+
+        $frenchEndDate = IntlDateFormatter::formatObject(
+            $end, IntlDateFormatter::FULL, 'fr_FR');
+
+
+        return $this->title . " (" . $frenchStartDate . " - "   . $frenchEndDate . ")";
     }
 }
