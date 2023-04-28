@@ -210,11 +210,11 @@ class Session
         $end = $this->endDate;
 
         //je formate mes objetS
-        $frenchStartDate = IntlDateFormatter::formatObject(
-            $start, IntlDateFormatter::FULL, 'fr_FR');
+        $frenchStartDate = \IntlDateFormatter::formatObject(
+            $start, IntlDateFormatter::RELATIVE_SHORT, 'fr_FR');
 
-        $frenchEndDate = IntlDateFormatter::formatObject(
-            $end, IntlDateFormatter::FULL, 'fr_FR');
+        $frenchEndDate = \IntlDateFormatter::formatObject(
+            $end, IntlDateFormatter::RELATIVE_SHORT, 'fr_FR');
 
 
         return $this->title . " (" . $frenchStartDate . " - "   . $frenchEndDate . ")";
