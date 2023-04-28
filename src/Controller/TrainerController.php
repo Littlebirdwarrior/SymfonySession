@@ -13,7 +13,7 @@ class TrainerController extends AbstractController
     #[Route('/trainer', name: 'app_trainer')]
     public function index( ManagerRegistry $doctrine): Response
     {
-        $trainers = $doctrine->getRepository( Trainer::class )->findAll();
+        $trainers = $doctrine->getRepository( Trainer::class )->findBy([], ["name" => "ASC"]);
         return $this->render('trainer/index.html.twig', [
             'trainers' => $trainers,
         ]);
