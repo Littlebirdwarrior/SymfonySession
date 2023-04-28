@@ -65,4 +65,9 @@ class Programme
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->module . " dure " . $this->moduleDuration . " dans la session " . $this->session;
+    }
 }

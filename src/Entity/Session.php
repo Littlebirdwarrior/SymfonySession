@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\SessionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeInterface;
+use App\Entity\Intern;
+use App\Entity\Formation;
+use App\Entity\Programme;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SessionRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -26,7 +30,7 @@ class Session
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $endDate = null;
+    private ?DateTimeInterface $endDate = null;
 
     #[ORM\Column]
     private ?int $nbPlace = null;
@@ -192,5 +196,10 @@ class Session
         $this->trainer = $trainer;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title . " (" . $this->startDate . " - "   . $this->endDate . ")";
     }
 }
