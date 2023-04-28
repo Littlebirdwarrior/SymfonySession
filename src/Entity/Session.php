@@ -170,11 +170,6 @@ class Session
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->title . " (" . $this->startDate . " - "   . $this->endDate . ")";
-    }
-
     /**
      * @return Collection<int, Programme>
      */
@@ -203,5 +198,12 @@ class Session
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        date_default_timezone_set('Europe/Paris');
+
+        return $this->title . " (" . $this->startDate->format('d-m-Y h:i:s') . " - "   . $this->endDate->format('d-m-Y h:i:s') . ")";
     }
 }
