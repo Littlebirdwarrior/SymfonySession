@@ -41,6 +41,10 @@ class Session
     #[ORM\ManyToMany(targetEntity: Intern::class, inversedBy: 'sessions')]
     private Collection $intern;
 
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Trainer $trainer = null;
+
     public function __construct()
     {
         $this->programmes = new ArrayCollection();
@@ -174,6 +178,18 @@ class Session
     public function removeIntern(Intern $intern): self
     {
         $this->intern->removeElement($intern);
+
+        return $this;
+    }
+
+    public function getTrainer(): ?Trainer
+    {
+        return $this->trainer;
+    }
+
+    public function setTrainer(?Trainer $trainer): self
+    {
+        $this->trainer = $trainer;
 
         return $this;
     }
