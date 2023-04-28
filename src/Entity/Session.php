@@ -38,9 +38,13 @@ class Session
     #[ORM\JoinColumn(nullable: false)]
     private ?Formation $formation = null;
 
+    #[ORM\ManyToMany(targetEntity: Intern::class, inversedBy: 'sessions')]
+    private Collection $intern;
+
     public function __construct()
     {
         $this->programmes = new ArrayCollection();
+        $this->intern = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +150,30 @@ class Session
     public function setFormation(?Formation $formation): self
     {
         $this->formation = $formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Intern>
+     */
+    public function getIntern(): Collection
+    {
+        return $this->intern;
+    }
+
+    public function addIntern(Intern $intern): self
+    {
+        if (!$this->intern->contains($intern)) {
+            $this->intern->add($intern);
+        }
+
+        return $this;
+    }
+
+    public function removeIntern(Intern $intern): self
+    {
+        $this->intern->removeElement($intern);
 
         return $this;
     }
