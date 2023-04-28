@@ -14,6 +14,7 @@ class CategoryController extends AbstractController
     public function index( ManagerRegistry $doctrine): Response
     {
         $categories = $doctrine->getRepository( Category::class)->findBy([], ["title" => "ASC"]);
+        
         return $this->render('category/index.html.twig', [
             'categories' => $categories,
         ]);
