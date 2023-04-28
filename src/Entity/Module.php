@@ -16,6 +16,9 @@ class Module
     #[ORM\Column(length: 50)]
     private ?string $title = null;
 
+    #[ORM\ManyToOne(inversedBy: 'modules')]
+    private ?Category $category = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Module
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
