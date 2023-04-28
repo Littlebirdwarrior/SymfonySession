@@ -12,6 +12,7 @@ use App\Repository\SessionRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Polyfill\Intl\Icu\IntlDateFormatter;
+use Symfony\Component\Intl\Languages;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
