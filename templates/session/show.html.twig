@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Show session! {% endblock %}
+
+{% block body %}
+<h1>Détail du session {{session}}</h1>
+    <p>     
+            <figure>
+                <img src="{{session.image}}" alt=" image {{session.title}}"/>
+            </figure>
+            
+            Intitulé : {{session.title}} <br>
+            <hr>
+            <div><div>
+            Formateur: <a href="#"> Formateur </a> <br>
+            ************************************** <br>
+            Date de début : {{session.frenchStartDate}} <br>
+            Date de fin : {{session.frenchEndDate}} <br>
+            nombre de place: {{session.nbPlace}} <br>
+            ************************************** <br>
+            
+            
+    </p>
+
+{% endblock %}

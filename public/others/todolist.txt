@@ -3,9 +3,9 @@
 **03/05
 
 1- Detail list
-Session
-Intern
-Trainer
+Session ^
+Intern 
+Trainer 
 
 Creation de la nav !!
 

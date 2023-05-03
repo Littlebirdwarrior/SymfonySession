@@ -202,21 +202,43 @@ class Session
         return $this;
     }
 
-    public function __toString()
+    
+    public function getFrenchStartDate()
     {
         date_default_timezone_set('Europe/Paris');
         //je recupére mes objet datetime
         $start = $this->startDate;
-        $end = $this->endDate;
+
 
         //je formate mes objetS
         $frenchStartDate = \IntlDateFormatter::formatObject(
             $start, IntlDateFormatter::RELATIVE_SHORT, 'fr_FR');
 
+
+
+        return $frenchStartDate;
+    
+    }
+
+    public function getFrenchEndDate()
+    {
+        date_default_timezone_set('Europe/Paris');
+        //je recupére mes objet datetime
+        $end = $this->endDate;
+
+        //je formate mes objetS
+
         $frenchEndDate = \IntlDateFormatter::formatObject(
             $end, IntlDateFormatter::RELATIVE_SHORT, 'fr_FR');
 
 
-        return $this->title . " (" . $frenchStartDate . " - "   . $frenchEndDate . ")";
+        return $frenchEndDate ;
+
     }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
 }
