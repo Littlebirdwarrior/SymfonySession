@@ -7,6 +7,6 @@
     <h1>Mes élèves</h1>
      
     {% for intern in interns %}
-        <a href="">{{ intern}}</a><br>
+        <a href="{{ path('show_intern', {'id': intern.id}) }}">{{ intern}}</a><br>
     {% endfor %}
 {% endblock %}

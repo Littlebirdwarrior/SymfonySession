@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Show intern! {% endblock %}
+
+{% block body %}
+<h1>Détail de l'élève {{intern}}</h1>
+    <p>
+            Nom : {{intern.name}} <br>
+            Prenom : {{intern.firstname}} <br>
+            Mail: <a href="mailto:{{intern.mail}}">{{intern.mail}} </a> <br>
+            Téléphone : {{intern.phone}} <br>
+            Ville : {{intern.city}} <br>
+            Date d'inscription : {{intern.frenchSigningDate}} <br>
+    </p>
+
+{% endblock %}

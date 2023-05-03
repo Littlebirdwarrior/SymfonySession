@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\InternRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\InternRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Polyfill\Intl\Icu\IntlDateFormatter;
 
 #[ORM\Entity(repositoryClass: InternRepository::class)]
 class Intern
@@ -79,7 +81,7 @@ class Intern
         return $this->signingDate;
     }
 
-    public function setSigningDate(\DateTimeInterface $signingDate): self
+    public function setSigningDate(DateTimeInterface $signingDate): self
     {
         $this->signingDate = $signingDate;
 
@@ -165,4 +167,19 @@ class Intern
     {
         return $this->firstname. " " . $this->name;
     }
+
+    public function getFrenchSigningDate()
+    {
+        date_default_timezone_set('Europe/Paris');
+        //je recupére mes objet datetime
+        $date = $this->signingDate;
+
+        //je formate mes objetS
+        $frenchSigningDate = \IntlDateFormatter::formatObject(
+            $date, IntlDateFormatter::RELATIVE_SHORT, 'fr_FR');
+
+
+        return $frenchSigningDate;
+    }
+
 }
