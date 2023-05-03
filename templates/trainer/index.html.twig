@@ -6,7 +6,7 @@
  <h1> Liste des formateurs</h1>
 
     {% for trainer in trainers %}
-        <a href="#">{{trainer}}</a><br>
+        <a href="{{ path('show_trainer', {'id': trainer.id}) }}">{{trainer}}</a><br>
     {% endfor %}
 
 {% endblock %}

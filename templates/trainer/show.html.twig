@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Show trainer! {% endblock %}
+
+{% block body %}
+<h1>Détail du professeur {{trainer}}</h1>
+    <p>
+            Nom : {{trainer.name}} <br>
+            Prenom : {{trainer.firstname}} <br>
+            Mail: <a href="mailto:{{trainer.mail}}">{{trainer.mail}} </a> <br>
+    </p>
+
+{% endblock %}

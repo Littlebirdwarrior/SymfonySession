@@ -18,4 +18,12 @@ class TrainerController extends AbstractController
             'trainers' => $trainers,
         ]);
     }
+
+    #[Route('/trainer/{id}', name: 'show_trainer')]
+    public function show(Trainer $trainer): Response 
+    {
+        return $this->render('trainer/show.html.twig', [
+            'trainer' => $trainer
+        ]);
+    }
 }
