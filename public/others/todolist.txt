@@ -1,0 +1,64 @@
+###Todolist
+
+**03/05
+
+1- Detail list
+Session
+Intern
+Trainer
+
+Creation de la nav !!
+
+2- CRUD Contoller pour admin/trainer
+Category
+Formation
+Session **
+Intern **
+Module
+Programme
+Trainer **
+
+**04/05
+
+3- Fonctionnalité Session Stagiaire
+count stagiaire inscrit
+count stagiaire non inscrit
+update session_intern (inscrire ou desincrire un stagiaire)
+Creation limite : Si session complete (session.nb_place), inscription dans session_intern pas possible -> Affichage page erreur
+
+4-Fonctionnalité Session Programme
+recuperer module categorie module_duration
+count module programmé
+count module deprogramme
+cout totale nombre jour (tous programme)
+
+5-Fonctionnalite Vue Elève
+calcul du nb de jour inscrit (à partir d'aujourd'hui)
+recuperation statut de la session (compete ou pas)
+
+6-Creation Entite admin
+id
+name
+firstname
+attribution_date
+mail
+password
+phone
+
+**07/05
+
+7-CRUD admin
+index -> findBy
+show -> Detail
+add/update
+delete
+
+retour étape 2 : CRUD choses non exploitée
+
+8-Configuration autorisation
+Admin : tout faire
+Prof : Vue all sauf admin, programmer, deprogrammer session
+Stagiaire: 
+Affichage statut dans la nav
+
+9-Eventuellement... CSS
