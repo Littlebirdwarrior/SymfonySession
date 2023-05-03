@@ -7,12 +7,14 @@
     <h1>Mes sessions</h1>
      
     {% for session in sessions %}
-        <figure>
-            <img src="{{session.image}}" alt=" image {{session.title}}"/>
-            <figcaption>
-                <a href=" {{ path('show_session', {'id': session.id}) }} ">{{ session}}</a>
-            </figcaption>
-        </figure>
+        <a href=" {{ path('show_session', {'id': session.id}) }} ">
+            <figure>
+                <img src="{{session.image}}" alt=" image {{session.title}}"/>
+                <figcaption>
+                    {{ session}}
+                </figcaption>
+            </figure>
+        </a>
     {% endfor %}
 
 {% endblock %}

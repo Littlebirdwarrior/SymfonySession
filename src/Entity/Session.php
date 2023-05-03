@@ -202,6 +202,7 @@ class Session
         return $this;
     }
 
+    /** Methode personnelle */
     
     public function getFrenchStartDate()
     {
@@ -235,6 +236,28 @@ class Session
         return $frenchEndDate ;
 
     }
+
+    public function countModulesInSession() {
+        $array = $this->programmes;
+        
+        if(!empty($array) && $array){
+           $countModules = count($array);
+           return $countModules;
+        } else 
+        {
+            echo "pas de module programmés";
+        }
+    }
+
+    public function countPlaceTaken(){
+
+    }
+
+    public function countPlaceLeft(){
+
+    }
+
+    /** Methode to String */
 
     public function __toString()
     {

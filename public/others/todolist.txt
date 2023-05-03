@@ -21,12 +21,14 @@ Trainer **
 **04/05
 
 3- Fonctionnalité Session Stagiaire
+creer fonctionnalité dans session : nb place disponible = nbPlace (session) - nb inscrit (requete count session_intern)
 count stagiaire inscrit
 count stagiaire non inscrit
 update session_intern (inscrire ou desincrire un stagiaire)
 Creation limite : Si session complete (session.nb_place), inscription dans session_intern pas possible -> Affichage page erreur
 
 4-Fonctionnalité Session Programme
+compte du nombre de module dans une session ^
 recuperer module categorie module_duration
 count module programmé
 count module deprogramme

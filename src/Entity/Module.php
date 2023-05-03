@@ -77,11 +77,6 @@ class Module
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->title;
-    }
-
     /**
      * @return Collection<int, Programme>
      */
@@ -111,4 +106,10 @@ class Module
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
 }

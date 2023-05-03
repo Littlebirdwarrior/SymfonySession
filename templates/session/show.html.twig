@@ -4,22 +4,29 @@
 
 {% block body %}
 <h1>Détail du session {{session}}</h1>
-    <p>     
+    <div>     
             <figure>
                 <img src="{{session.image}}" alt=" image {{session.title}}"/>
             </figure>
             
-            Intitulé : {{session.title}} <br>
+            <h2>Intitulé : {{session.title}} <br></h2>
             <hr>
-            <div><div>
-            Formateur: <a href="#"> Formateur </a> <br>
-            ************************************** <br>
-            Date de début : {{session.frenchStartDate}} <br>
-            Date de fin : {{session.frenchEndDate}} <br>
-            nombre de place: {{session.nbPlace}} <br>
-            ************************************** <br>
+            <p>
+                Formateur: <a href="{{ path('show_trainer', {'id': session.trainer.id}) }}"> {{session.trainer}} </a> <br>
+                ************************************** <br>
+                Date de début : {{session.frenchStartDate}} <br>
+                Date de fin : {{session.frenchEndDate}} <br>
+                nombre de place: {{session.nbPlace}} <br>
+                nombre de module : {{session.countModulesInSession()}} <br>
+                ************************************** <br>
+
+
+                    {# {% for programme in session.programmes %}
+                        {{programme.module}}
+                    {% endfor %} #}
+
+            <p>
             
-            
-    </p>
+    </div>
 
 {% endblock %}
