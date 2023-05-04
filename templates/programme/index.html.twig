@@ -3,11 +3,11 @@
 {% block title %}Hello ProgrammeController!{% endblock %}
 
 {% block body %}
-
-    <h1>Durée de modules dans mes sessions</h1>
-     
-    {% for programme in programmes %}
-        {{ programme }}
-    {% endfor %}
-
+    <main class="container">
+        <h1>Durée de modules dans mes sessions</h1>
+        
+        {% for programme in programmes %}
+            {{ programme }}
+        {% endfor %}
+    </main>
 {% endblock %}

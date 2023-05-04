@@ -24,10 +24,10 @@ Trainer **
 
 3- Fonctionnalité Session Stagiaire
 creer fonctionnalité dans session : nb place disponible = nbPlace (session) - nb inscrit (requete count session_intern)
-count stagiaire inscrit 
-count stagiaire non inscrit
+count stagiaire inscrit ^
+count stagiaire non inscrit ^
 update session_intern (inscrire ou desincrire un stagiaire)
-Creation limite : Si session complete (session.nb_place), inscription dans session_intern pas possible -> Affichage page erreur
+Creation limite : Si session complete (session.nb_place), inscription dans session_intern pas possible -> Affichage page erreur / disparition bouton inscriptio ?
 
 4-Fonctionnalité Session Programme
 compte du nombre de module dans une session ^
@@ -65,4 +65,4 @@ Prof : Vue all sauf admin, programmer, deprogrammer session
 Stagiaire: 
 Affichage statut dans la nav
 
-9-Eventuellement... CSS
+9-Eventuellement... CSS ^

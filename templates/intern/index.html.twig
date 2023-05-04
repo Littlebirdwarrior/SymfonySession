@@ -3,10 +3,12 @@
 {% block title %}Hello InternController!{% endblock %}
 
 {% block body %}
-
-    <h1>Mes élèves</h1>
-     
-    {% for intern in interns %}
-        <a href="{{ path('show_intern', {'id': intern.id}) }}">{{ intern}}</a><br>
-    {% endfor %}
+    <main class="container">
+        <h1>Mes élèves</h1>
+        
+        {% for intern in interns %}
+            <a href="{{ path('show_intern', {'id': intern.id}) }}">{{ intern}}</a><br>
+        {% endfor %}
+    </main>
+    
 {% endblock %}

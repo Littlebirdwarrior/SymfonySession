@@ -3,10 +3,13 @@
 {% block title %}Hello FormationController!{% endblock %}
 
 {% block body %}
-
-    <h1>Mes formations</h1>
+    <main class="container">
+        <h1>Mes formations</h1>
      
-    {% for formation in formations %}
-        {{ formation}}
-    {% endfor %}
+        {% for formation in formations %}
+            {{ formation}}
+        {% endfor %}
+
+    </main>
+    
 {% endblock %}

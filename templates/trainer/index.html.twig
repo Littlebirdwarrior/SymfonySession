@@ -3,10 +3,11 @@
 {% block title %} Hello TrainerController! {% endblock %}
 
 {% block body %}
- <h1> Liste des formateurs</h1>
+    <main class="container">
+        <h1> Liste des formateurs</h1>
 
-    {% for trainer in trainers %}
-        <a href="{{ path('show_trainer', {'id': trainer.id}) }}">{{trainer}}</a><br>
-    {% endfor %}
-
+        {% for trainer in trainers %}
+            <a href="{{ path('show_trainer', {'id': trainer.id}) }}">{{trainer}}</a><br>
+        {% endfor %}
+    </main>
 {% endblock %}

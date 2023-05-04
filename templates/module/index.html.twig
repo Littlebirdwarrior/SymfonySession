@@ -3,10 +3,12 @@
 {% block title %}Hello ModuleController!{% endblock %}
 
 {% block body %}
+    <main class="container">
+        <h1>Mes modules</h1>
+        
+        {% for module in modules %}
+            {{ module}}
+        {% endfor %}
+    </main>
 
-    <h1>Mes modules</h1>
-     
-    {% for module in modules %}
-        {{ module}}
-    {% endfor %}
 {% endblock %}
