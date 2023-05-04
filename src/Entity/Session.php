@@ -240,7 +240,8 @@ class Session
     public function countModulesInSession() {
         $array = $this->programmes;
         
-        if(!empty($array) && $array){
+        if(!empty($array) && $array)
+        {
            $countModules = count($array);
            return $countModules;
         } else 
@@ -250,10 +251,43 @@ class Session
     }
 
     public function countPlaceTaken(){
+        //je recupère l'array des inscrit
+        $interns = $this->intern;
+
+        if(!empty($interns) && $interns)
+        {
+            $countPlaceTaken = count($interns);
+            return $countPlaceTaken;
+        } else 
+        {
+            echo "pas d'intern dans cette session";
+        }
 
     }
 
     public function countPlaceLeft(){
+        //je recupère le nombre de place et l'array des inscrits
+        $nbInit = $this->nbPlace;
+        $interns = $this->intern;
+
+        if(!empty($interns) && $interns)
+        {
+            $countPlaceTaken = count($interns);
+            //cas ou il n'y a pas de place disponible
+            if($countPlaceTaken < $nbInit) 
+            {
+                $countPlaceLeft = $nbInit - $countPlaceTaken;
+                return $countPlaceLeft;
+            }
+            else 
+            {
+                return $countPlaceLeft = 0 ;
+            }
+            
+        } else 
+        {
+            echo "pas d'intern dans cette session";
+        }
 
     }
 

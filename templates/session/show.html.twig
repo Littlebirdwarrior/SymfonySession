@@ -16,7 +16,8 @@
                 ************************************** <br>
                 Date de début : {{session.frenchStartDate}} <br>
                 Date de fin : {{session.frenchEndDate}} <br>
-                nombre de place: {{session.nbPlace}} <br>
+                nombre de place: {{session.countPlaceLeft()}} / {{session.nbPlace}} <br>
+                nombre d'inscrits : {{session.countPlaceTaken}}<br>
                 nombre de module : {{session.countModulesInSession()}} <br>
                 ************************************** <br>
 
