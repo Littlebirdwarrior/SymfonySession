@@ -3,37 +3,33 @@
 {% block title %} Show session! {% endblock %}
 
 {% block body %}
-<h1>Détail du session {{session}}</h1>
-    <div>     
-            <figure>
-                <img src="{{session.image}}" alt=" image {{session.title}}"/>
-            </figure>
-            
-            <h2>Intitulé : {{session.title}} <br></h2>
-            <hr>
-            <p>
-                Formateur: <a href="{{ path('show_trainer', {'id': session.trainer.id}) }}"> {{session.trainer}} </a> <br>
-                ************************************** <br>
-                Date de début : {{session.frenchStartDate}} <br>
-                Date de fin : {{session.frenchEndDate}} <br>
-                
-                {% if session.countPlaceLeft() == 0 %}
-                    nombre de place:  <span class="badge bg-danger">Complete</span> <br>
-                {% else %}
-                    nombre de place: {{session.countPlaceLeft()}} / {{session.nbPlace}} <br>
-                {% endif %}
+<div>
+    <figure class="container-fluid bg-warning-subtle gx-0">
+        <img src="{{session.image}}" class="w-100 opacity-50" alt="image {{session.title}}"/>
+    </figure>
+    <h1>{{session}}</h1>
+    <hr>
+</div>
 
-                nombre d'inscrits : {{session.countPlaceTaken}}<br>
-                nombre de module : {{session.countModulesInSession()}} <br>
-                ************************************** <br>
+<div class="card p-3 bg-light" style="width: 25rem;">
+    <p>
+        Formateur: <a href="{{ path('show_trainer', {'id': session.trainer.id}) }}"> {{session.trainer}} </a> <br>
+        ***********************<br>
+        Date de début : {{session.frenchStartDate}} <br>
+        Date de fin : {{session.frenchEndDate}} <br>
+
+        {# affichage d'un span complet si la session est complete#}
+        {% if session.countPlaceLeft() == 0 %}
+            nombre de place:  <span class="badge bg-danger">Complete</span> <br>
+        {% else %}
+            nombre de place: {{session.countPlaceLeft()}} / {{session.nbPlace}} <br>
+        {% endif %}
+
+        nombre d'inscrits : {{session.countPlaceTaken}}<br>
+        nombre de module : {{session.countModulesInSession()}}
+    </p>
+</div>
 
 
-                    {# {% for programme in session.programmes %}
-                        {{programme.module}}
-                    {% endfor %} #}
-
-            <p>
-            
-    </div>
 
 {% endblock %}

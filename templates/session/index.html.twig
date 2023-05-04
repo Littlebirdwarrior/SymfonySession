@@ -4,17 +4,32 @@
 
 {% block body %}
     
-    <h1>Mes sessions</h1>
-     
-    {% for session in sessions %}
-        <a href=" {{ path('show_session', {'id': session.id}) }} ">
-            <figure>
-                <img src="{{session.image}}" alt=" image {{session.title}}"/>
-                <figcaption>
-                    {{ session}}
-                </figcaption>
-            </figure>
-        </a>
-    {% endfor %}
+    <main class="container">
+
+        <h1>Mes sessions</h1>
+
+        <section class="row">
+
+            {% for session in sessions %}
+
+                    <div class="col">
+                        <a href=" {{ path('show_session', {'id': session.id}) }} ">
+                        
+                            <div class="card">
+                                <figure class="figure">
+                                    <img src="{{session.image}}" class="card-img-top img-fluid" alt="image {{session.title}}">
+                                </figure>
+                                <div class="card-body">
+                                <h5 class="{{session.title}}">{{session.title}}</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+            {% endfor %}
+
+    </section>
+
+</main>
 
 {% endblock %}
