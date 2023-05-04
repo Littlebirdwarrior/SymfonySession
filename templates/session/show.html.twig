@@ -16,7 +16,13 @@
                 ************************************** <br>
                 Date de début : {{session.frenchStartDate}} <br>
                 Date de fin : {{session.frenchEndDate}} <br>
-                nombre de place: {{session.countPlaceLeft()}} / {{session.nbPlace}} <br>
+                
+                {% if session.countPlaceLeft() == 0 %}
+                    nombre de place:  <span class="badge bg-danger">Complete</span> <br>
+                {% else %}
+                    nombre de place: {{session.countPlaceLeft()}} / {{session.nbPlace}} <br>
+                {% endif %}
+
                 nombre d'inscrits : {{session.countPlaceTaken}}<br>
                 nombre de module : {{session.countModulesInSession()}} <br>
                 ************************************** <br>
