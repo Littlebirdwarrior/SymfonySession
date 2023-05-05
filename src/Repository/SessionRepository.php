@@ -60,7 +60,7 @@ class SessionRepository extends ServiceEntityRepository
 
         //2 A partir de cette requete, on filtre les resultats avec (NOTIN) de cette 1er requete
         $subQuery->select('st')
-        ->from('App\Entity\Intern', 'st')
+        ->from('App\Entity\Session', 'st')
         ->where($subQuery->expr()->NotIn('st.id', $queryBuilder->getDQL()))
         ->setParameter('id', $session_id)
         // trier la liste des stagiaires sur le nom de famille
