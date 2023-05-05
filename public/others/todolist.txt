@@ -9,7 +9,7 @@ Trainer
 
 **04/05
 
-Creation de la nav !!
+Creation de la nav !! ^
 
 2- CRUD Contoller pour admin/trainer
 Category
