@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Intern;
 use App\Entity\Session;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Session>
@@ -37,6 +38,28 @@ class SessionRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    //Personnel
+
+    public function getNonSuscriber($session_id)
+    {
+        //importer la classe EntituManager()
+        $EntityManager = $this->getEntityManager();
+
+        // Créez une instance de QueryBuilder pour construire la requête
+        $queryBuilder= $EntityManager->createQueryBuilder();
+
+        // Construisez la requête
+        $queryBuilder->select('i')
+            ->from(Intern::class, 'i')
+            ->join('i.sessions', 's')
+            ->where('s.id <> :sessionId')
+            ->setParameter('sessionId', $session_id);
+
+        //renvoyer le resultat
+        return $queryBuilder->getQuery()->getResult();
+
     }
 
 //    /**

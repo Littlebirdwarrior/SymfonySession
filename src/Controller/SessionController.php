@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Entity\Intern;
+use App\Repository\SessionRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Parameter;
@@ -26,27 +27,18 @@ class SessionController extends AbstractController
     }
 
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(ManagerRegistry $doctrine, Session $session, Intern $intern): Response 
+    public function show(Session $session, SessionRepository $sessionRepository, Intern $intern): Response 
     {
         $session_id = $session->getId();
 
-        // Créez une instance de QueryBuilder pour construire la requête
-        $queryBuilder = $doctrine->getRepository( Intern::class)->createQueryBuilder();
-
-        // Construisez la requête
-        $queryBuilder->select('i')
-            ->from(Intern::class, 'i')
-            ->join('i.sessions', 's')
-            ->where('s.id <> :sessionId')
-            ->setParameter('sessionId', 1);
 
         // Récupérez les résultats de la requête
-        $interns = $queryBuilder->getQuery()->getResult();
+        $nonSuscribers = $sessionRepository->getNonSuscriber($session_id);
 
 
         return $this->render('session/show.html.twig', [
             'session' => $session,
-            'interns' => $interns
+            'nonSuscribers' => $nonSuscribers
         ]);
     }
 

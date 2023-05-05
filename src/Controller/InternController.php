@@ -23,6 +23,7 @@ class InternController extends AbstractController
     #[Route('/intern/{id}', name: 'show_intern')]
     public function show(Intern $intern): Response 
     {
+
         return $this->render('intern/show.html.twig', [
             'intern' => $intern
         ]);
