@@ -47,15 +47,24 @@ class SessionRepository extends ServiceEntityRepository
         //importer la classe EntituManager()
         $EntityManager = $this->getEntityManager();
 
-        // Créez une instance de QueryBuilder pour construire la requête
-        $queryBuilder= $EntityManager->createQueryBuilder();
+        //* Construisez la requête (ici, requete embarquée)
+        // Créez non pas 1 mais 2 instances de QueryBuilder pour construire la requête
+        $queryBuilder = $subQuery = $EntityManager->createQueryBuilder();
 
-        // Construisez la requête
+        
+        //1- selectionner tous les stagiaires d'une session dont l'id est en parametre
         $queryBuilder->select('i')
-            ->from(Intern::class, 'i')
-            ->join('i.sessions', 's')
-            ->where('s.id <> :sessionId')
-            ->setParameter('sessionId', $session_id);
+            ->from('App\Entity\Intern', 'i')
+            ->leftJoin('i.session', 's')
+            ->where('s.id = :id');
+
+        //2 A partir de cette requete, on filtre les resultats avec (NOTIN) de cette 1er requete
+        $subQuery->select('st')
+        ->from('App\Entity\Intern', 'st')
+        ->where($subQuery->expr()->NotIn('st.id', $queryBuilder->getDQL()))
+        ->setParameter('id', $session_id)
+        // trier la liste des stagiaires sur le nom de famille
+        ->orderBy('st.name');
 
         //renvoyer le resultat
         return $queryBuilder->getQuery()->getResult();
