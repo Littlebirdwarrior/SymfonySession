@@ -4,6 +4,7 @@
 
 {% block body %}
 <main>
+
     <section>
         <figure class="container-fluid bg-warning-subtle gx-0">
             <img src="{{session.image}}" class="w-100 opacity-50" alt="image {{session.title}}"/>
@@ -22,16 +23,18 @@
 
                 {# affichage d'un span complet si la session est complete#}
                 {% if session.countPlaceLeft() == 0 %}
-                    nombre de place:  <span class="badge bg-danger">Complete</span> <br>
+                    Nombre de place:  <span class="badge bg-danger">Complete</span> <br>
                 {% else %}
-                    nombre de place: {{session.countPlaceLeft()}} / {{session.nbPlace}} <br>
+                    Nombre de place: {{session.countPlaceLeft()}} / {{session.nbPlace}} <br>
                 {% endif %}
 
-                nombre d'inscrits : {{session.countPlaceTaken}}<br>
-                nombre de module : {{session.countModulesInSession()}}
+                Nombre d'inscrits : {{session.countPlaceTaken}}<br>
+                Nombre de module : {{session.countModulesInSession()}}
             </p>
         </div>
     </section>  
+
+
 </main>
 
 
