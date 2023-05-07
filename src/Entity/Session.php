@@ -237,7 +237,9 @@ class Session
 
     }
 
-    public function countModulesInSession() {
+    //les programmes
+    public function countModulesInSession() 
+    {
         $array = $this->programmes;
         
         if(!empty($array) && $array)
@@ -246,9 +248,26 @@ class Session
            return $countModules;
         } else 
         {
-            echo "pas de module programmés";
+            return $countModules = 0;
         }
     }
+
+    public function sumAllDays() 
+    {
+        $array = $this->programmes;
+
+        $days = 0;
+
+        foreach ($array as $programme)
+        {
+            $days += $programme->getModuleDuration();
+        }
+
+        return $days;
+
+    }
+
+    //Les stagiaires
 
     public function countPlaceTaken(){
         //je recupère l'array des inscrit

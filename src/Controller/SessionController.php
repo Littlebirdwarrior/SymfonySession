@@ -32,19 +32,32 @@ class SessionController extends AbstractController
         $session_id = $session->getId();
 
 
-        // Récupérez les résultats de la requête
+        // Récupérez les stagiaire non insccrit
         $nonSubscribers = $sessionRepository->getNonSubscriber($session_id);
 
-        if (!empty($nonSubscribers)) {
+        if (!empty($nonSubscribers) && $nonSubscribers) 
+        {
             $countNS = count($nonSubscribers);
         } else {
             $countNS = 0;
+        }
+
+        //Recuperer les programmes non programmer
+        $nonProgrammed = $sessionRepository->getNonProgrammed($session_id);
+
+        if (!empty($nonProgrammed) && $nonProgrammed) 
+        {
+            $countNP = count($nonProgrammed);
+        } else {
+            $countNP = 0;
         }
 
         return $this->render('session/show.html.twig', [
             'session' => $session,
             'nonSubscribers' => $nonSubscribers,
             'countNS' => $countNS,
+            'nonProgrammed' => $nonProgrammed,
+            'countNP' => $countNP,
         ]);
     }
 

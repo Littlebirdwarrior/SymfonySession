@@ -20,21 +20,23 @@ Module
 Programme
 Trainer **
 
-**04/05
+**04/05 05/04
 
 3- Fonctionnalité Session Stagiaire
 creer fonctionnalité dans session : nb place disponible = nbPlace (session) - nb inscrit (requete count session_intern)
 count stagiaire inscrit ^
 count stagiaire non inscrit ^
 update session_intern (inscrire ou desincrire un stagiaire)
-Creation limite : Si session complete (session.nb_place), inscription dans session_intern pas possible -> Affichage page erreur / disparition bouton inscriptio ?
+Creation limite : Si session complete (session.nb_place), inscription dans session_intern pas possible -> Affichage page erreur / disparition bouton inscriptio ? ^
 
 4-Fonctionnalité Session Programme
 compte du nombre de module dans une session ^
-recuperer module categorie module_duration
-count module programmé
-count module deprogramme
-cout totale nombre jour (tous programme)
+recuperer module categorie module_duration ^
+count module programmé ^
+count module deprogramme ^
+count totale nombre jour (tous programme) ^
+
+**07/05
 
 5-Fonctionnalite Vue Elève
 calcul du nb de jour inscrit (à partir d'aujourd'hui)
@@ -49,7 +51,7 @@ mail
 password
 phone
 
-**07/05
+**08/05
 
 7-CRUD admin
 index -> findBy

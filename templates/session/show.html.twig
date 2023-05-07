@@ -32,56 +32,143 @@
                 Nombre de module : {{session.countModulesInSession()}}
             </p>
         </div>
+    </section>
+    
+    <div class="container grid mt-5">
+        {#Les stagiaires#}
+        <section class="row mt-2">
+            <div class="col-12 col-md-6">
+                <h2 class="mb-3">Stagiaire inscrits <span class="badge bg-dark">{{session.countPlaceTaken}}</span></h2>
 
-        <div class="my-4 col-12 col-md-6">
-            <h2 class="mb-3">Stagiaire inscrits <span class="badge bg-dark">{{session.countPlaceTaken}}</span></h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">Stagiaire</th>
+                        <th  class="col col-md-3" scope="col">Désincrire</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">Stagiaire</th>
-                    <th  class="col col-md-3" scope="col">Désincrire</th>
-                    </tr>
-                </thead>
-                <tbody>
+                        {% for intern in session.intern %}
+                        <tr>
+                        <td>{{intern}}</td>
+                        <td class="col col-md-3" scope="col"><a class=" btn btn-outline-danger" href=""><i class="bi bi-box-arrow-left"></i></a></td>
+                        </tr>
+                        <tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class=" col-12 col-md-6">
+                <h2 class="mb-3">Stagiaire non inscrits <span class="badge bg-dark">{{countNS}}</span></h2>
 
-                    {% for intern in session.intern %}
-                    <tr>
-                    <td>{{intern}}</td>
-                    <td class="col col-md-3" scope="col"><a class=" btn btn-outline-danger" href=""><i class="bi bi-box-arrow-left"></i></a></td>
-                    </tr>
-                    <tr>
-                    {% endfor %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">Stagiaire</th>
+                        <th  class="col col-md-3" scope="col">Inscrire</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for nonSubscriber in nonSubscribers %}
+                        <tr>
+                        <td>{{nonSubscriber}}</td>
+                        {% if session.countPlaceLeft == 0 %}
+                            <td class="col col-md-3" scope="col">
+                                <span class="badge bg-dark">Complete</span>
+                            </td>
+                            {% else %}
+                            <td class="col col-md-3" scope="col">
+                                <a class="btn btn-outline-success mx-auto" href="">
+                                    <i class="bi bi-plus-circle-dotted"></i>
+                                </a>
+                            </td>
+                        {% endif %}
+
+                        </tr>
+                        <tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section> 
+
+        {#Les programmes#}
+        <section class="row mt-2">
+            <div class="col-12 col-md-6">
+                <h2 class="mb-3">Programmation <span class="badge bg-dark">{{session.countModulesInSession}}</span></h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">Module</th>
+                        <th scope="col">Catégorie</th>
+                        <th scope="col">Durée</th>
+                        <th  class="col col-md-3" scope="col">Déprogrammer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for programme in session.programmes %}
+                        <tr>
+                            <td>{{programme.module}}</td>
+                            <td>{{programme.module.category}}</td>
+                            <td>{{programme.moduleDuration}} jours</td>
+                            <td class="col col-md-3" scope="col">
+                                <a class=" btn btn-outline-danger mx-auto" href="">
+                                    <i class="bi bi-x-circle"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                        <tr class="bg-light">
+                            <th class="col" scope="col">Total jours</th>
+                            <th></th>
+                            <th></th>
+                            <td class="col" scope="col"> {{session.sumAllDays}} jours</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <h2 class="mb-3">Module non programmés <span class="badge bg-dark">{{countNP}}</span></h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">Module</th>
+                        <th scope="col">Catégorie</th>
+                        <th scope="col">Durée</th>
+                        <th  class="col col-md-3" scope="col">Déprogrammer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for nonP in nonProgrammed %}
+                        <tr>
+                            <td>{{nonP.module}}</td>
+                            <td>{{nonP.module.category}}</td>
+                            <td>{{nonP.moduleDuration}} jours</td>
+                            <td class="col col-md-3" scope="col">
+                                <a class=" btn btn-outline-success mx-auto" href="">
+                                    <i class="bi bi-calendar-plus"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
                     
-                </tbody>
-            </table>
-        </div>
-        <div class="my-4 col-12 col-md-6">
-            <h2 class="mb-3">Stagiaire non inscrits <span class="badge bg-dark">{{countNS}}</span></h2>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">Stagiaire</th>
-                    <th  class="col col-md-3" scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    {% for nonSubscriber in nonSubscribers %}
-                    <tr>
-                    <td>{{nonSubscriber}}</td>
-                    <td class="col col-md-3" scope="col"><a class="btn btn-outline-success" href=""><i class="bi bi-plus-circle-dotted"></i></a></td>
-                    </tr>
-                    <tr>
-                    {% endfor %}
-                    
-                </tbody>
-            </table>
-        </div>
-
-    </section>  
-
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>  
+    </div>
 
 </main>
 
