@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Session;
 use App\Entity\Intern;
+use App\Entity\Session;
+use Doctrine\ORM\Query\Parameter;
 use App\Repository\SessionRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Query\Parameter;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class SessionController extends AbstractController
 {
@@ -25,6 +26,21 @@ class SessionController extends AbstractController
             'sessions' => $sessions
         ]);
     }
+
+    #[Route("/session/removeIntern/{idS}/{idI}", name: 'removeIntern')]
+    // ParamConverter permet de convertir les parametres en instances de Session et de Stagiaire en utilisant l'injection de
+    // dependance de Doctrine pour recuper les entités correspondant à la base de donnée
+    #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
+    #[ParamConverter("intern", options:["mapping"=>["idI"=>"id"]])]
+    
+    public function removeStagiaire(ManagerRegistry $doctrine, Session $session, Intern $intern){
+        $em = $doctrine->getManager();
+        $session->removeIntern($intern);
+        $em->persist($session);
+        $em->flush();
+
+    return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+}   
 
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session, SessionRepository $sessionRepository): Response 
