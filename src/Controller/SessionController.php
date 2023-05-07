@@ -27,20 +27,37 @@ class SessionController extends AbstractController
         ]);
     }
 
+    //*ajouter ou supprimer un stagiaire de la session
     #[Route("/session/removeIntern/{idS}/{idI}", name: 'removeIntern')]
     // ParamConverter permet de convertir les parametres en instances de Session et de Stagiaire en utilisant l'injection de
     // dependance de Doctrine pour recuper les entités correspondant à la base de donnée
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
     #[ParamConverter("intern", options:["mapping"=>["idI"=>"id"]])]
     
-    public function removeStagiaire(ManagerRegistry $doctrine, Session $session, Intern $intern){
+    public function removeStagiaire(ManagerRegistry $doctrine, Session $session, Intern $intern)
+    {
         $em = $doctrine->getManager();
         $session->removeIntern($intern);
         $em->persist($session);
         $em->flush();
 
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
-}   
+    }  
+    
+    #[Route("/session/addIntern/{idS}/{idI}", name: 'addIntern')]
+    
+    #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
+    #[ParamConverter("intern", options:["mapping"=>["idI"=>"id"]])]
+    
+    public function addStagiaire(ManagerRegistry $doctrine, Session $session, Intern $intern)
+    {
+        $em = $doctrine->getManager();
+        $session->addIntern($intern);
+        $em->persist($session);
+        $em->flush();
+
+    return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    } 
 
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session, SessionRepository $sessionRepository): Response 
