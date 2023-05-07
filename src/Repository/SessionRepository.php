@@ -43,33 +43,60 @@ class SessionRepository extends ServiceEntityRepository
     //Personnel
 
     //Afficher les stagiaires non inscrits //
-    public function getNonSuscriber($session_id){
-        $EntityManager=$this->getEntityManager();
-        $subQuery=$EntityManager->createQueryBuilder();
-    
-        $firstQuery=$subQuery;
-        //selectionner tous les stagiaires d'une session dont l'id est passé en paramètre
-        $firstQuery->select('i')
-        ->from(Intern::class, 'i')
-        ->join('i.sessions', 's')
-        ->where('s.id <> :id')
+    //*! requete ne marche pas (renvois 2 fois la stroumpfette)
+    public function getNonSubscriber($session_id)
+    {
+        //j'appelle la classe EntityManager qui contien la fonction createQueryBuilder
+        $entityManager = $this->getEntityManager();
+
+        $subQuery = $entityManager->createQueryBuilder();
+
+        // Sélectionner tous les stagiaires inscrit d'une session dont l'id est passé en paramètre (sous requête)
+        $subQuery->select('i.id')
+                ->from('App\Entity\Intern', 'i')
+                ->join('i.sessions', 's')
+                ->where('s.id = :id')
+                ->setParameter('id', $session_id);
+
+        $qb = $entityManager->createQueryBuilder();
+
+        // requête principale (query builder)  : Sélectionner tous les stagiaires qui ne sont pas dans le résultat précédent (les non-inscrit, donc) en utilisant le resultat de la sous requete (le where  exclut les stagiaires qui ont un ID qui est dans la sous-requête.)
+        $qb->select('it')
+        ->from('App\Entity\Intern', 'it')
+        ->where($qb->expr()->notIn('it.id', $subQuery->getDQL()))
+        ->orderBy('it.name', 'ASC')
         ->setParameter('id', $session_id);
-            
-            $subQuery = $EntityManager->createQueryBuilder();
-            // sélectionner tous les stagiaires qui ne SONT PAS (NOT IN) dans le résultat précédent
-            // on obtient donc les stagiaires non inscrits pour une session définie
-            $subQuery->select('it')
-                ->from('App\Entity\Intern', 'it')
-                ->where($subQuery->expr()->NotIn('it.id', $firstQuery->getDQL()))
-                // requête paramétrée
-                ->setParameter('id', $session_id)
-                // trier la liste des stagiaires sur le nom de famille
-                ->orderBy('it.name', 'ASC');
-            
-            //renvoyer le resultat 
-            $query = $subQuery->getQuery();
-            return $query->getResult();
+
+        //fonction exécute la requête et renvoie le résultat sous forme d'un tableau d'objets Intern
+        return $qb->getQuery()->getResult();
     }
+    // public function getNonSuscriber($session_id){
+    //     $EntityManager=$this->getEntityManager();
+    //     $subQuery=$EntityManager->createQueryBuilder();
+    
+    //     $firstQuery=$subQuery;
+    //     //selectionner tous les stagiaires d'une session dont l'id est passé en paramètre
+    //     $firstQuery->select('i.name', 'i.firstname', 'ANY_VALUE(si.intern_id)')
+    //     ->from(Intern::class, 'i')
+    //     ->join('i.sessions', 's')
+    //     ->where('s.id <> :id')
+    //     ->setParameter('id', $session_id);
+            
+    //         $subQuery = $EntityManager->createQueryBuilder();
+    //         // sélectionner tous les stagiaires qui ne SONT PAS (NOT IN) dans le résultat précédent
+    //         // on obtient donc les stagiaires non inscrits pour une session définie
+    //         $subQuery->select('it')
+    //             ->from('App\Entity\Intern', 'it')
+    //             ->where($subQuery->expr()->NotIn('it.id', $firstQuery->getDQL()))
+    //             // requête paramétrée
+    //             ->setParameter('id', $session_id)
+    //             // trier la liste des stagiaires sur le nom de famille
+    //             ->orderBy('it.name', 'ASC');
+            
+    //         //renvoyer le resultat 
+    //         $query = $subQuery->getQuery();
+    //         return $query->getResult();
+    // }
     
      //Afficher les modules non utilisés //
     //  public function findNonUtilises($session_id){

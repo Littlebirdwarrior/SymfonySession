@@ -33,7 +33,7 @@ class SessionController extends AbstractController
 
 
         // Récupérez les résultats de la requête
-        $nonSuscribers = $sessionRepository->getNonSuscriber($session_id);
+        $nonSuscribers = $sessionRepository->getNonSubscriber($session_id);
 
 
         return $this->render('session/show.html.twig', [
