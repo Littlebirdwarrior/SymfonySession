@@ -33,12 +33,18 @@ class SessionController extends AbstractController
 
 
         // Récupérez les résultats de la requête
-        $nonSuscribers = $sessionRepository->getNonSubscriber($session_id);
+        $nonSubscribers = $sessionRepository->getNonSubscriber($session_id);
 
+        if (!empty($nonSubscribers)) {
+            $countNS = count($nonSubscribers);
+        } else {
+            $countNS = 0;
+        }
 
         return $this->render('session/show.html.twig', [
             'session' => $session,
-            'nonSuscribers' => $nonSuscribers
+            'nonSubscribers' => $nonSubscribers,
+            'countNS' => $countNS,
         ]);
     }
 
