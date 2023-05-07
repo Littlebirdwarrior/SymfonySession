@@ -27,7 +27,7 @@ class SessionController extends AbstractController
     }
 
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session, SessionRepository $sessionRepository, Intern $intern): Response 
+    public function show(Session $session, SessionRepository $sessionRepository): Response 
     {
         $session_id = $session->getId();
 

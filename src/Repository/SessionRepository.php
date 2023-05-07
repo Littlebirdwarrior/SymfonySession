@@ -42,34 +42,62 @@ class SessionRepository extends ServiceEntityRepository
 
     //Personnel
 
-    public function getNonSuscriber($session_id)
-    {
-        //importer la classe EntituManager()
-        $EntityManager = $this->getEntityManager();
-
-        //* Construisez la requête (ici, requete embarquée)
-        // Créez non pas 1 mais 2 instances de QueryBuilder pour construire la requête
-        $queryBuilder = $subQuery = $EntityManager->createQueryBuilder();
-
-        
-        //1- selectionner tous les stagiaires d'une session dont l'id est en parametre
-        $queryBuilder->select('i')
-            ->from('App\Entity\Intern', 'i')
-            ->leftJoin('i.session', 's')
-            ->where('s.id = :id');
-
-        //2 A partir de cette requete, on filtre les resultats avec (NOTIN) de cette 1er requete
-        $subQuery->select('st')
-        ->from('App\Entity\Session', 'st')
-        ->where($subQuery->expr()->NotIn('st.id', $queryBuilder->getDQL()))
-        ->setParameter('id', $session_id)
-        // trier la liste des stagiaires sur le nom de famille
-        ->orderBy('st.name');
-
-        //renvoyer le resultat
-        return $queryBuilder->getQuery()->getResult();
-
+    //Afficher les stagiaires non inscrits //
+    public function getNonSuscriber($session_id){
+        $EntityManager=$this->getEntityManager();
+        $subQuery=$EntityManager->createQueryBuilder();
+    
+        $firstQuery=$subQuery;
+        //selectionner tous les stagiaires d'une session dont l'id est passé en paramètre
+        $firstQuery->select('i')
+        ->from(Intern::class, 'i')
+        ->join('i.sessions', 's')
+        ->where('s.id <> :id')
+        ->setParameter('id', $session_id);
+            
+            $subQuery = $EntityManager->createQueryBuilder();
+            // sélectionner tous les stagiaires qui ne SONT PAS (NOT IN) dans le résultat précédent
+            // on obtient donc les stagiaires non inscrits pour une session définie
+            $subQuery->select('it')
+                ->from('App\Entity\Intern', 'it')
+                ->where($subQuery->expr()->NotIn('it.id', $firstQuery->getDQL()))
+                // requête paramétrée
+                ->setParameter('id', $session_id)
+                // trier la liste des stagiaires sur le nom de famille
+                ->orderBy('it.name', 'ASC');
+            
+            //renvoyer le resultat 
+            $query = $subQuery->getQuery();
+            return $query->getResult();
     }
+    
+     //Afficher les modules non utilisés //
+    //  public function findNonUtilises($session_id){
+    //     $EntityManager=$this->getEntityManager();
+    //     $subQuery=$EntityManager->createQueryBuilder();
+    
+    //     $firstQuery=$subQuery;
+    //     //selectionner tous les module d'une session dont l'id est passé en paramètre
+    //     $firstQuery->select('m')
+    //         ->from('App\Entity\Module','m')
+    //         ->leftJoin('m.programmations', 'p')
+    //         ->where('p.session = :id');
+            
+    //         $subQuery = $EntityManager->createQueryBuilder();
+    //         // sélectionner tous les modules qui ne SONT PAS (NOT IN) dans le résultat précédent
+    //         // on obtient donc les module non utilisés pour une session définie
+    //         $subQuery->select('mo')
+    //             ->from('App\Entity\Module', 'mo')
+    //             ->where($subQuery->expr()->NotIn('mo.id', $firstQuery->getDQL()))
+    //             // requête paramétrée
+    //             ->setParameter('id', $session_id)
+    //             // trier la liste des stagiaires sur le nom de famille
+    //             ->orderBy('mo.nom');
+            
+    //         //renvoyer le resultat 
+    //         $query = $subQuery->getQuery();
+    //         return $query->getResult();
+    // }
 
 //    /**
 //     * @return Session[] Returns an array of Session objects
