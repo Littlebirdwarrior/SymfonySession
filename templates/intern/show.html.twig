@@ -3,14 +3,18 @@
 {% block title %} Show intern! {% endblock %}
 
 {% block body %}
+<section class="container">
 <h1>Détail de l'élève {{intern}}</h1>
-    <p>
-            Nom : {{intern.name}} <br>
-            Prenom : {{intern.firstname}} <br>
-            Mail: <a href="mailto:{{intern.mail}}">{{intern.mail}} </a> <br>
-            Téléphone : {{intern.phone}} <br>
-            Ville : {{intern.city}} <br>
-            Date d'inscription : {{intern.frenchSigningDate}} <br>
-    </p>
-
+<hr>
+        <div class="card p-3 bg-light" style="width: 28rem;">
+            <p>
+                    Nom : {{intern.name}} <br>
+                    Prenom : {{intern.firstname}} <br>
+                    Mail: <a href="mailto:{{intern.mail}}">{{intern.mail}} </a> <br>
+                    Téléphone : {{intern.phone}} <br>
+                    Ville : {{intern.city}} <br>
+                    Date d'inscription : depuis {{intern.dateDiff}} jours ({{intern.frenchSigningDate}})
+            </p>
+        </div>
+</section>
 {% endblock %}

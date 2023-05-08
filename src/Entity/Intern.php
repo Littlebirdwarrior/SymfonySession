@@ -182,4 +182,22 @@ class Intern
         return $frenchSigningDate;
     }
 
+
+    public function getDateDiff()
+    {
+        $date = $this->signingDate;
+
+        // Convertir la date en timestamp
+        $timestamp = $date->getTimestamp();
+
+        // Obtenir le timestamp de la date actuelle
+        $today = time();
+
+        // Calculer le nombre de secondes entre les deux dates
+        $diff = $today - $timestamp;
+
+        // Convertir le nombre de secondes en jours
+        return $dateDiff = round($diff / (60 * 60 * 24));
+    }
+
 }
