@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Intern;
 use App\Entity\Session;
+use App\Repository\InternRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,11 +43,15 @@ class InternController extends AbstractController
     
     //*details
     #[Route('/intern/{id}', name: 'show_intern')]
-    public function show(Intern $intern): Response 
+    public function show( InternRepository $internRepository, Intern $intern): Response 
     {
+        $intern_id = $intern->getId();
+
+        $sessionsLeft = $internRepository->getSessionLeft($intern_id);
 
         return $this->render('intern/show.html.twig', [
-            'intern' => $intern
+            'intern' => $intern,
+            'sessionsLeft' => $sessionsLeft
         ]);
     }
 }

@@ -41,6 +41,37 @@ class InternRepository extends ServiceEntityRepository
         }
     }
 
+
+    //personnel 
+
+    //Afficher les stagiaires non inscrits //
+    public function getSessionLeft($intern_id)
+    {
+        //j'appelle la classe EntityManager qui contien la fonction createQueryBuilder
+        $entityManager = $this->getEntityManager();
+
+        $subQuery = $entityManager->createQueryBuilder();
+
+        // Sélectionner tous les stagiaires inscrit d'une session dont l'id est passé en paramètre (sous requête)
+        $subQuery->select('s.id')
+                ->from('App\Entity\Session', 's')
+                ->join('s.intern', 'i')
+                ->where('i.id = :id')
+                ->setParameter('id', $intern_id);
+
+        $qb = $entityManager->createQueryBuilder();
+
+        // requête principale (query builder)  : Sélectionner tous les stagiaires qui ne sont pas dans le résultat précédent (les non-inscrit, donc) en utilisant le resultat de la sous requete (le where  exclut les stagiaires qui ont un ID qui est dans la sous-requête.)
+        $qb->select('sl')
+        ->from('App\Entity\Session', 'sl')
+        ->where($qb->expr()->notIn('sl.id', $subQuery->getDQL()))
+        ->orderBy('sl.startDate', 'DESC')
+        ->setParameter('id', $intern_id);
+
+        //fonction exécute la requête et renvoie le résultat sous forme d'un tableau d'objets Intern
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Intern[] Returns an array of Intern objects
 //     */
