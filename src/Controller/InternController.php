@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Intern;
+use App\Entity\Session;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class InternController extends AbstractController
 {
+    //*listes
     #[Route('/intern', name: 'app_intern')]
     public function index( ManagerRegistry $doctrine ): Response
     {
@@ -20,6 +23,24 @@ class InternController extends AbstractController
         ]);
     }
 
+    //*quitter la session pour un stagiaire
+    #[Route("/session/removeSession/{idS}/{idI}", name: 'removeSession')]
+    // ParamConverter permet de convertir les parametres en instances de Session et de Stagiaire en utilisant l'injection de
+    // dependance de Doctrine pour recuper les entités correspondant à la base de donnée
+    #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
+    #[ParamConverter("intern", options:["mapping"=>["idI"=>"id"]])]
+    
+    public function removeStagiaire(ManagerRegistry $doctrine, Session $session, Intern $intern)
+    {
+        $em = $doctrine->getManager();
+        $intern->removeSession($session);
+        $em->persist($intern);
+        $em->flush();
+
+    return $this->redirectToRoute('show_intern', ['id' => $intern->getId()]);
+    }  
+    
+    //*details
     #[Route('/intern/{id}', name: 'show_intern')]
     public function show(Intern $intern): Response 
     {

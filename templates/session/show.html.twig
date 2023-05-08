@@ -52,12 +52,14 @@
 
                         {% for intern in session.intern %}
                         <tr>
-                        <td>{{intern}}</td>
-                        <td class="col col-md-3" scope="col"><a class=" btn btn-outline-danger" href="{{ path('removeIntern', {'idS': session.id, 'idI': intern.id}) }}"><i class="bi bi-box-arrow-left"></i></a></td>
+                            <td>{{intern}}</td>
+                            <td class="col col-md-3" scope="col">
+                                <a class=" btn btn-outline-danger" href="{{ path('removeIntern', {'idS': session.id, 'idI': intern.id}) }}">
+                                    <i class="bi bi-box-arrow-left"></i>
+                                </a>
+                            </td>
                         </tr>
-                        <tr>
                         {% endfor %}
-                        
                     </tbody>
                 </table>
             </div>

@@ -3,18 +3,66 @@
 {% block title %} Show intern! {% endblock %}
 
 {% block body %}
+
 <section class="container">
-<h1>Détail de l'élève {{intern}}</h1>
-<hr>
-        <div class="card p-3 bg-light" style="width: 28rem;">
-            <p>
-                    Nom : {{intern.name}} <br>
-                    Prenom : {{intern.firstname}} <br>
-                    Mail: <a href="mailto:{{intern.mail}}">{{intern.mail}} </a> <br>
-                    Téléphone : {{intern.phone}} <br>
-                    Ville : {{intern.city}} <br>
-                    Date d'inscription : depuis {{intern.dateDiff}} jours ({{intern.frenchSigningDate}})
-            </p>
-        </div>
-</section>
+    <h1>Détail de l'élève {{intern}}</h1>
+    <hr>
+            <div class="card p-3 bg-light" style="width: 28rem;">
+                <p>
+                        Nom : {{intern.name}} <br>
+                        Prenom : {{intern.firstname}} <br>
+                        Mail: <a href="mailto:{{intern.mail}}">{{intern.mail}} </a> <br>
+                        Téléphone : {{intern.phone}} <br>
+                        Ville : {{intern.city}} <br>
+                        Date d'inscription : depuis {{intern.dateDiff}} jours ({{intern.frenchSigningDate}})
+                </p>
+            </div>
+
+    </section>
+
+        <div class="container grid mt-5">
+        {#Les session par stagiaire#}
+        <section class="row mt-2">
+            {#inscrit#}
+            <div class="col-10">
+                <h2 class="mb-3">Sessions <span class="badge bg-dark"></span></h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Statut</th>
+                            <th class="col">Formation</th>
+                            <th class="col">Session</th>
+                            <th class="col">Date de début</th>
+                            <th class="col">Date de fin</th>
+                            <th class="col">Se désinscrire</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for session in intern.sessions %}
+                            <tr>
+                                <td class="col">
+                                    {# affichage d'un span complet si la session est complete#}
+                                    {% if session.countPlaceLeft() == 0 %}
+                                        <span class="badge bg-danger">Complete</span> <br>  
+                                    {% endif %}
+                                </td>
+                                <td class="col">{{session.formation}}</td>
+                                <td class="col">{{session.title}}</td>
+                                <td class="col">{{session.frenchStartDate}}</td>
+                                <td class="col">{{session.frenchEndDate}}</td>
+                                <td class="col">
+                                    <a class=" btn btn-outline-danger" href="{{ path('removeSession', {'idS': session.id, 'idI': intern.id}) }}">
+                                        <i class="bi bi-box-arrow-left"></i>
+                                    </a>
+                                </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section> 
 {% endblock %}
