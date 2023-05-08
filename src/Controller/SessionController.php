@@ -64,7 +64,7 @@ class SessionController extends AbstractController
     } 
 
     //**Ajouter ou supprimer un module de la programmation */
-    
+    //! ne marche pas si aucun champ programmé : besoin de rendre session_id nullable
     #[Route("/session/removeProgramme/{idS}/{idM}", name: 'removeProgramme')]
     
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
@@ -80,12 +80,14 @@ class SessionController extends AbstractController
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
 
+    //! ne marche pas = pas d'action sur la BDD
     #[Route("/session/addProgramme/{idS}/{idM}", name: 'addProgramme')]
 
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
     #[ParamConverter("module", options:["mapping"=>["idM"=>"id"]])]
-        
+    
     public function addProgramme(ManagerRegistry $doctrine, Session $session, Programme $programme)
+
     {
         $em = $doctrine->getManager();
         $session->addProgramme($programme);
