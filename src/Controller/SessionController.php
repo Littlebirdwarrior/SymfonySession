@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Intern;
+use App\Entity\Module;
 use App\Entity\Session;
+use App\Entity\Programme;
 use Doctrine\ORM\Query\Parameter;
 use App\Repository\SessionRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,6 +18,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class SessionController extends AbstractController
 {
+    //*listes
     #[Route('/session', name: 'app_session')]
     public function index(ManagerRegistry $doctrine): Response
     {
@@ -28,6 +31,7 @@ class SessionController extends AbstractController
     }
 
     //*ajouter ou supprimer un stagiaire de la session
+
     #[Route("/session/removeIntern/{idS}/{idI}", name: 'removeIntern')]
     // ParamConverter permet de convertir les parametres en instances de Session et de Stagiaire en utilisant l'injection de
     // dependance de Doctrine pour recuper les entités correspondant à la base de donnée
@@ -59,6 +63,39 @@ class SessionController extends AbstractController
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     } 
 
+    //**Ajouter ou supprimer un module de la programmation */
+    
+    #[Route("/session/removeProgramme/{idS}/{idM}", name: 'removeProgramme')]
+    
+    #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
+    #[ParamConverter("module", options:["mapping"=>["idM"=>"id"]])]
+        
+    public function removeProgramme(ManagerRegistry $doctrine, Session $session, Module $module, Programme $programme)
+    {
+        $em = $doctrine->getManager();
+        $session->removeProgramme($programme);
+        $em->persist($session);
+        $em->flush();
+    
+    return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
+
+    #[Route("/session/addProgramme/{idS}/{idM}", name: 'addProgramme')]
+
+    #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
+    #[ParamConverter("module", options:["mapping"=>["idM"=>"id"]])]
+        
+    public function addProgramme(ManagerRegistry $doctrine, Session $session, Programme $programme)
+    {
+        $em = $doctrine->getManager();
+        $session->addProgramme($programme);
+        $em->persist($session);
+        $em->flush();
+    
+    return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
+
+    //* details
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session, SessionRepository $sessionRepository): Response 
     {
@@ -93,5 +130,7 @@ class SessionController extends AbstractController
             'countNP' => $countNP,
         ]);
     }
+
+
 
 }

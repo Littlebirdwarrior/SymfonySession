@@ -267,7 +267,7 @@ class Session
 
     }
 
-    //Les stagiaires
+    //Les
 
     public function countPlaceTaken(){
         //je recupère l'array des inscrit
