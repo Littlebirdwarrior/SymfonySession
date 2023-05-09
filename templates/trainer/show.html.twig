@@ -3,11 +3,115 @@
 {% block title %} Show trainer! {% endblock %}
 
 {% block body %}
-<h1>Détail du professeur {{trainer}}</h1>
-    <p>
-            Nom : {{trainer.name}} <br>
-            Prenom : {{trainer.firstname}} <br>
-            Mail: <a href="mailto:{{trainer.mail}}">{{trainer.mail}} </a> <br>
-    </p>
+<section class="container">
+    <h1>Détail du professeur {{trainer}}</h1>
+    <hr>
+            <div class="card p-3 bg-light" style="width: 28rem;">
+                <p>
+                Nom : {{trainer.name}} <br>
+                Prenom : {{trainer.firstname}} <br>
+                Mail: <a href="mailto:{{trainer.mail}}">{{trainer.mail}} </a> <br>
+                </p>
+            </div>
+</section>
+
+<div class="container grid mt-5">
+        {#Les session ou le professeur enseigne #}
+            <section class="row mt-2">
+                {#inscrit#}
+                <div class="col-10">
+                    <h2 class="mb-3">Sessions <span class="badge bg-dark"></span></h2>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col">Statut</th>
+                                <th class="col">Formation</th>
+                                <th class="col">Session</th>
+                                <th class="col">Date de début</th>
+                                <th class="col">Date de fin</th>
+                                <th class="col">Ne plus enseigner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for session in trainer.sessions %}
+                                <tr>
+                                    <td class="col">
+                                        {# affichage d'un span complet si la session est complete#}
+                                        {% if session.countPlaceLeft() == 0 %}
+                                            <span class="badge bg-danger">Complete</span> <br>  
+                                        {% endif %}
+                                    </td>
+                                    <td class="col">{{session.formation}}</td>
+                                    <td class="col">{{session.title}}</td>
+                                    <td class="col">{{session.frenchStartDate}}</td>
+                                    <td class="col">{{session.frenchEndDate}}</td>
+                                    <td class="col">
+                                    {# #}
+                                        <a class=" btn btn-outline-danger" href="{{ path('removeSession', {'idS': session.id, 'idI': trainer.id}) }}">
+                                            <i class="bi bi-box-arrow-left"></i>
+                                        </a>
+                                    </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            {#Les session ou le professeur n'enseigne pas#}
+            <section class="row mt-2">
+                {#inscrit#}
+                <div class="col-10">
+                    <h2 class="mb-3">Non inscrit aux Sessions : <span class="badge bg-dark"></span></h2>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col">Statut</th>
+                                <th class="col">Formation</th>
+                                <th class="col">Session</th>
+                                <th class="col">Date de début</th>
+                                <th class="col">Date de fin</th>
+                                <th class="col">Enseigner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for sessionLeft in sessionsLeft %}
+                                <tr>
+                                    <td class="col">
+                                        {# affichage d'un span complet si la session est complete#}
+                                        {% if sessionLeft.countPlaceLeft() == 0 %}
+                                            <span class="badge bg-danger">Complete</span> <br>  
+                                        {% endif %}
+                                    </td>
+                                    <td class="col">{{sessionLeft.formation}}</td>
+                                    <td class="col">{{sessionLeft.title}}</td>
+                                    <td class="col">{{sessionLeft.frenchStartDate}}</td>
+                                    <td class="col">{{sessionLeft.frenchEndDate}}</td>
+                                    <td class="col">
+                                        {# affichage d'un span complet si la session est complete#}
+                                        {% if sessionLeft.countPlaceLeft() == 0 %}
+                                            <span class="badge bg-danger">Complete</span> <br>
+                                            {% else %}
+                                            {#  #}
+                                            <a class=" btn btn-outline-success" href="{{ path('addSession', {'idS': sessionLeft.id, 'idI': trainer.id}) }}">
+                                            <i class="bi bi-plus-circle-dotted"></i>
+                                        </a>
+                                        {% endif %}
+                                        
+                                    </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div> 
 
 {% endblock %}

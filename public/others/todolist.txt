@@ -4,7 +4,7 @@
 
 1- Detail list
 Session ^
-Intern 
+Intern ^^
 Trainer 
 
 **04/05
@@ -39,8 +39,8 @@ count totale nombre jour (tous programme) ^
 **07/05
 
 5-Fonctionnalite Vue Elève
-calcul du nb de jour inscrit (à partir d'aujourd'hui)
-recuperation statut de la session (compete ou pas)
+calcul du nb de jour inscrit (à partir d'aujourd'hui) ^
+recuperation statut de la session (compete ou pas) ^^
 
 6-Creation Entite admin
 id
