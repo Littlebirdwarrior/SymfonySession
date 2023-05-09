@@ -39,14 +39,12 @@ class Session
 
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Formation $formation = null;
 
     #[ORM\ManyToMany(targetEntity: Intern::class, inversedBy: 'sessions')]
     private Collection $intern;
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Trainer $trainer = null;
 
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class)]
@@ -201,6 +199,29 @@ class Session
 
         return $this;
     }
+
+
+    // public function addProgramme(Programme $programme): self
+    // {
+    //     if (!$this->programmes->contains($programme)) {
+    //         $this->programmes->add($programme);
+    //         $programme->setSession($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeProgramme(Programme $programme): self
+    // {
+    //     if ($this->programmes->removeElement($programme)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($programme->getSession() === $this) {
+    //             $programme->setSession(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
 
     /** Methode personnelle */
     
