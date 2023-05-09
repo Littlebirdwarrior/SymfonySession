@@ -13,6 +13,7 @@
 
     <div class="form-group w-50 mt-2 p-3 border bg-light rounded">
         {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.pseudo) }}
             {{ form_row(registrationForm.email) }}
             {{ form_row(registrationForm.plainPassword, {
                 label: 'Password'
