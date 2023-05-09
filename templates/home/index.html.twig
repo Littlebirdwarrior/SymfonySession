@@ -5,7 +5,11 @@
 {% block body %}
 <main>
     <section class="container">
+        {% if app.user %}
         <h1>Bienvenue <span class="text-primary">{{app.user.pseudo}}<span></h1>
+        {% else %}
+        <h1>Bienvenue</h1>
+        {% endif %}
     </section>
 <main>
 
