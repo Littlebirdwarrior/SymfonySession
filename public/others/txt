@@ -34,11 +34,9 @@ cd laragon\www\camille\SymfonySession
         return $qb->getQuery()->getResult();
     }
 
-    //Personnel sessionRepo
+//Personnel sessionRepo
 
-    //Personnel
-
-//Afficher les stagiaires non inscrits //
+    //Afficher les stagiaires non inscrits //
 public function getNonSubscriber($session_id)
 {
     //j'appelle la classe EntityManager qui contien la fonction createQueryBuilder
@@ -93,3 +91,132 @@ public function getNonSubscriber($session_id)
     //fonction exécute la requête et renvoie le résultat sous forme d'un tableau d'objets Intern
     return $qb->getQuery()->getResult();
 }
+
+//methode personnelle SessionController
+
+/** Methode personnelle */
+    
+    public function getFrenchStartDate()
+    {
+        date_default_timezone_set('Europe/Paris');
+        //je recupére mes objet datetime
+        $start = $this->startDate;
+
+
+        //je formate mes objetS
+        $frenchStartDate = \IntlDateFormatter::formatObject(
+            $start, IntlDateFormatter::RELATIVE_SHORT, 'fr_FR');
+
+
+
+        return $frenchStartDate;
+    
+    }
+
+    public function getFrenchEndDate()
+    {
+        date_default_timezone_set('Europe/Paris');
+        //je recupére mes objet datetime
+        $end = $this->endDate;
+
+        //je formate mes objetS
+
+        $frenchEndDate = \IntlDateFormatter::formatObject(
+            $end, IntlDateFormatter::RELATIVE_SHORT, 'fr_FR');
+
+
+        return $frenchEndDate ;
+
+    }
+
+    //les programmes
+    public function countModulesInSession() 
+    {
+        $array = $this->programmes;
+        
+        if(!empty($array) && $array)
+        {
+           $countModules = count($array);
+           return $countModules;
+        } else 
+        {
+            return $countModules = 0;
+        }
+    }
+
+    public function sumAllDays() 
+    {
+        $array = $this->programmes;
+
+        $days = 0;
+
+        foreach ($array as $programme)
+        {
+            $days += $programme->getModuleDuration();
+        }
+
+        return $days;
+
+    }
+
+    //Les
+
+    public function countPlaceTaken(){
+        //je recupère l'array des inscrit
+        $interns = $this->intern;
+
+        if(!empty($interns) && $interns)
+        {
+            $countPlaceTaken = count($interns);
+            return $countPlaceTaken;
+        } else 
+        {
+            echo "pas d'intern dans cette session";
+        }
+
+    }
+
+    public function countPlaceLeft(){
+        //je recupère le nombre de place et l'array des inscrits
+        $nbInit = $this->nbPlace;
+        $interns = $this->intern;
+
+        if(!empty($interns) && $interns)
+        {
+            $countPlaceTaken = count($interns);
+            //cas ou il n'y a pas de place disponible
+            if($countPlaceTaken < $nbInit) 
+            {
+                $countPlaceLeft = $nbInit - $countPlaceTaken;
+                return $countPlaceLeft;
+            }
+            else 
+            {
+                return $countPlaceLeft = 0 ;
+            }
+            
+        } else 
+        {
+            echo "pas d'intern dans cette session";
+        }
+
+    }
+
+    /** Methode to String */
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
+    public function getTrainer(): ?Trainer
+    {
+        return $this->trainer;
+    }
+
+    public function setTrainer(?Trainer $trainer): self
+    {
+        $this->trainer = $trainer;
+
+        return $this;
+    }
