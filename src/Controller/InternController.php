@@ -31,7 +31,7 @@ class InternController extends AbstractController
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
     #[ParamConverter("intern", options:["mapping"=>["idI"=>"id"]])]
     
-    public function removeStagiaire(ManagerRegistry $doctrine, Session $session, Intern $intern)
+    public function removeSession(ManagerRegistry $doctrine, Session $session, Intern $intern)
     {
         $em = $doctrine->getManager();
         $intern->removeSession($session);
