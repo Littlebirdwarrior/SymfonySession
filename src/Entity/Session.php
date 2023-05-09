@@ -182,7 +182,6 @@ class Session
     {
         if (!$this->programmes->contains($programme)) {
             $this->programmes->add($programme);
-            $programme->setSession($this);
         }
 
         return $this;
@@ -190,12 +189,7 @@ class Session
 
     public function removeProgramme(Programme $programme): self
     {
-        if ($this->programmes->removeElement($programme)) {
-            // set the owning side to null (unless already changed)
-            if ($programme->getSession() === $this) {
-                $programme->setSession(null);
-            }
-        }
+        $this->programmes->removeElement($programme);
 
         return $this;
     }
