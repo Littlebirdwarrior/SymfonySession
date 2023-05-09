@@ -31,7 +31,7 @@ class Trainer
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'trainer', targetEntity: Session::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'trainer', targetEntity: Session::class)]
     private Collection $sessions;
 
     public function __construct()
