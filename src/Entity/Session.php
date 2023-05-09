@@ -39,18 +39,17 @@ class Session
 
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Formation $formation = null;
 
     #[ORM\ManyToMany(targetEntity: Intern::class, inversedBy: 'sessions')]
     private Collection $intern;
 
-    #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Trainer $trainer = null;
-
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class)]
     private Collection $programmes;
+
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    private ?Trainer $trainer = null;
 
     public function __construct()
     {
@@ -160,18 +159,6 @@ class Session
         return $this;
     }
 
-    public function getTrainer(): ?Trainer
-    {
-        return $this->trainer;
-    }
-
-    public function setTrainer(?Trainer $trainer): self
-    {
-        $this->trainer = $trainer;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Programme>
      */
@@ -182,9 +169,8 @@ class Session
 
     public function addProgramme(Programme $programme): self
     {
-        if (!$this->programmes->contains($programme)) {
-            $this->programmes->add($programme);
-            $programme->setSession($this);
+        if (!$this->intern->contains($programme)) {
+            $this->intern->add($programme);
         }
 
         return $this;
@@ -192,12 +178,7 @@ class Session
 
     public function removeProgramme(Programme $programme): self
     {
-        if ($this->programmes->removeElement($programme)) {
-            // set the owning side to null (unless already changed)
-            if ($programme->getSession() === $this) {
-                $programme->setSession(null);
-            }
-        }
+        $this->intern->removeElement($programme);
 
         return $this;
     }
@@ -315,6 +296,18 @@ class Session
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getTrainer(): ?Trainer
+    {
+        return $this->trainer;
+    }
+
+    public function setTrainer(?Trainer $trainer): self
+    {
+        $this->trainer = $trainer;
+
+        return $this;
     }
 
 }
