@@ -8,11 +8,11 @@
 
         <h1>Mes sessions</h1>
 
-        <section class="row">
+        <section class="row d-flex flex-wrap">
 
             {% for session in sessions %}
 
-                    <div class="col">
+                    <div class="col-3">
                         <a href=" {{ path('show_session', {'id': session.id}) }} ">
                         
                             <div class="card" style="height:15rem">

@@ -6,9 +6,12 @@ use App\Entity\Intern;
 use App\Entity\Module;
 use App\Entity\Session;
 use App\Entity\Programme;
+use App\Form\SessionType;
 use Doctrine\ORM\Query\Parameter;
 use App\Repository\SessionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,6 +31,30 @@ class SessionController extends AbstractController
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions
         ]);
+    }
+
+    //*add session
+    #[Route('/session/{idS}/add', name:'add_session')]
+    public function add(EntityManagerInterface $entityManager, Session $session=null, Request $request):Response
+    {
+        //Creation du formulaire
+
+        $form= $this->createForm(SessionType::class, $session);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $session= $form->getData();
+            $entityManager->persist($session);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_session',array('id' => $session->getFormation()->getId()));
+        }
+
+        return $this->render('session/add.html.twig', [
+           'formAddSession' => $form->createView(),
+        ]);
+
     }
 
     //*ajouter ou supprimer un stagiaire de la session

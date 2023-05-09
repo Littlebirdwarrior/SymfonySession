@@ -12,8 +12,15 @@
     </section>
 
     <section class="container">
-        <h1>{{session}}</h1>
+        <div class="d-flex align-items-center justify-content-between">
+            <h1>Session "{{session}}"</h1>
+            <a class="btn btn-warning" style="height: 2.5rem" href="{{ path('add_session', {'idS': session.id})}}">
+                <i class="bi bi-plus-square"></i>
+            </a>
+        </div>
+        
         <hr>
+        
         <div class="card p-3 bg-light" style="width: 25rem;">
             <p>
                 Formateur: <a href="{{ path('show_trainer', {'id': session.trainer.id}) }}"> {{session.trainer}} </a> <br>
