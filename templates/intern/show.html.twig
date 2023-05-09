@@ -101,7 +101,7 @@
                                         {% if sessionLeft.countPlaceLeft() == 0 %}
                                             <span class="badge bg-danger">Complete</span> <br>
                                             {% else %}
-                                            <a class=" btn btn-outline-success" href="{{ path('removeSession', {'idS': sessionLeft.id, 'idI': intern.id}) }}">
+                                            <a class=" btn btn-outline-success" href="{{ path('addSession', {'idS': sessionLeft.id, 'idI': intern.id}) }}">
                                             <i class="bi bi-plus-circle-dotted"></i>
                                         </a>
                                         {% endif %}

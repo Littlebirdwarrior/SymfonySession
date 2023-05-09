@@ -38,8 +38,24 @@ class InternController extends AbstractController
         $em->persist($intern);
         $em->flush();
 
-    return $this->redirectToRoute('show_intern', ['id' => $intern->getId()]);
+        return $this->redirectToRoute('show_intern', ['id' => $intern->getId()]);
     }  
+
+    //*s'inscire à une session
+    #[Route("/session/addSession/{idS}/{idI}", name: 'addSession')]
+    
+    #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
+    #[ParamConverter("intern", options:["mapping"=>["idI"=>"id"]])]
+    
+    public function addSession(ManagerRegistry $doctrine, Session $session, Intern $intern)
+    {
+        $em = $doctrine->getManager();
+        $intern->addSession($session);
+        $em->persist($intern);
+        $em->flush();
+
+        return $this->redirectToRoute('show_intern', ['id' => $intern->getId()]);
+    } 
     
     //*details
     #[Route('/intern/{id}', name: 'show_intern')]
