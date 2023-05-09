@@ -4,7 +4,7 @@ cd Documents/www/symfony-1/exoSession/SymfonySession
 ### chemain dossier ecole
 cd laragon\www\camille\SymfonySession
 
-//personnel 
+//personnel trainerRepo
 
     //Afficher les sessions ou le prof n'enseigne pes //
     public function getSessionLeft($trainer_id)
@@ -33,3 +33,63 @@ cd laragon\www\camille\SymfonySession
         //fonction exécute la requête et renvoie le résultat sous forme d'un tableau d'objets$trainer
         return $qb->getQuery()->getResult();
     }
+
+    //Personnel sessionRepo
+
+    //Personnel
+
+//Afficher les stagiaires non inscrits //
+public function getNonSubscriber($session_id)
+{
+    //j'appelle la classe EntityManager qui contien la fonction createQueryBuilder
+    $entityManager = $this->getEntityManager();
+
+    $subQuery = $entityManager->createQueryBuilder();
+
+    // Sélectionner tous les stagiaires inscrit d'une session dont l'id est passé en paramètre (sous requête)
+    $subQuery->select('i.id')
+            ->from('App\Entity\Intern', 'i')
+            ->join('i.sessions', 's')
+            ->where('s.id = :id')
+            ->setParameter('id', $session_id);
+
+    $qb = $entityManager->createQueryBuilder();
+
+    // requête principale (query builder)  : Sélectionner tous les stagiaires qui ne sont pas dans le résultat précédent (les non-inscrit, donc) en utilisant le resultat de la sous requete (le where  exclut les stagiaires qui ont un ID qui est dans la sous-requête.)
+    $qb->select('it')
+    ->from('App\Entity\Intern', 'it')
+    ->where($qb->expr()->notIn('it.id', $subQuery->getDQL()))
+    ->orderBy('it.name', 'ASC')
+    ->setParameter('id', $session_id);
+
+    //fonction exécute la requête et renvoie le résultat sous forme d'un tableau d'objets Intern
+    return $qb->getQuery()->getResult();
+}
+
+ //Afficher les modules non utilisés //
+ public function getNonProgrammed($session_id)
+{
+    //j'appelle la classe EntityManager qui contien la fonction createQueryBuilder
+    $entityManager = $this->getEntityManager();
+
+    $subQuery = $entityManager->createQueryBuilder();
+
+    // Sélectionner tous les stagiaires inscrit d'une session dont l'id est passé en paramètre (sous requête)
+    $subQuery->select('p.id')
+            ->from('App\Entity\Programme', 'p')
+            ->join('p.session', 's')
+            ->where('s.id = :id')
+            ->setParameter('id', $session_id);
+
+    $qb = $entityManager->createQueryBuilder();
+
+    // requête principale (query builder)  : Sélectionner tous les stagiaires qui ne sont pas dans le résultat précédent (les non-inscrit, donc) en utilisant le resultat de la sous requete (le where  exclut les stagiaires qui ont un ID qui est dans la sous-requête.)
+    $qb->select('np')
+    ->from('App\Entity\Programme', 'np')
+    ->where($qb->expr()->notIn('np.id', $subQuery->getDQL()))
+    ->orderBy('np.moduleDuration', 'DESC')
+    ->setParameter('id', $session_id);
+
+    //fonction exécute la requête et renvoie le résultat sous forme d'un tableau d'objets Intern
+    return $qb->getQuery()->getResult();
+}

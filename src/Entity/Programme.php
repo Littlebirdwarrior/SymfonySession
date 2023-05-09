@@ -21,8 +21,8 @@ class Programme
     private ?Module $module = null;
 
     #[ORM\ManyToOne(inversedBy: 'programmes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Session $session = null;
+    private ?session $session = null;
+
 
     public function getId(): ?int
     {
@@ -53,20 +53,22 @@ class Programme
         return $this;
     }
 
-    public function getSession(): ?Session
-    {
-        return $this->session;
-    }
 
-    public function setSession(?Session $session): self
-    {
-        $this->session = $session;
-
-        return $this;
-    }
 
     public function __toString()
     {
         return $this->module . " dans la session -" . $this->session . " dure " . $this->moduleDuration . " jours ";
+    }
+
+    public function getSession(): ?session
+    {
+        return $this->session;
+    }
+
+    public function setSession(?session $session): self
+    {
+        $this->session = $session;
+
+        return $this;
     }
 }
