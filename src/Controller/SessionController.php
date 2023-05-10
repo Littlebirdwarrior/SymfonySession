@@ -91,7 +91,7 @@ class SessionController extends AbstractController
     } 
 
     //**Ajouter ou supprimer un module de la programmation */
-    //! voir Session Entity
+    //* voir Session Entity : methode removeProgramme
     #[Route("/session/removeProgramme/{idS}/{idM}", name: 'removeProgramme')]
     
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
@@ -109,7 +109,7 @@ class SessionController extends AbstractController
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
 
-    //! voir Session Entity
+    //* voir Session Entity : methode addProgramme
     #[Route("/session/addProgramme/{idS}/{idM}", name: 'addProgramme')]
 
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
@@ -125,6 +125,15 @@ class SessionController extends AbstractController
     
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
+
+    /** Persist() et flush()
+     * persist et flush sont des méthodes importantes de l'EntityManager de Doctrine qui permettent de gérer les entités dans la base de données.
+     * 
+     * La méthode persist est utilisée pour signaler à Doctrine que l'objet doit être persisté dans la base de données. Elle prend en argument l'objet à persister. Cela signifie que Doctrine va créer une requête SQL pour ajouter l'objet à la base de données lors de la prochaine exécution de la méthode flush.
+     * 
+     * La méthode flush est utilisée pour exécuter les requêtes SQL qui ont été créées par les méthodes persist, remove ou toute autre opération de modification de la base de données effectuée par Doctrine. Cette méthode exécute toutes les requêtes en attente dans l'ordre dans lequel elles ont été enregistrées et met à jour la base de données.
+     * 
+     * En résumé, la méthode persist est utilisée pour enregistrer une entité dans le contexte de persistance de Doctrine, et la méthode flush est utilisée pour synchroniser les changements avec la base de données en exécutant toutes les requêtes SQL en attente. Il est important de noter que les modifications ne seront pas persistées dans la base de données tant que flush n'aura pas été appelé. */
 
     //* details
     #[Route('/session/{id}', name: 'show_session')]
