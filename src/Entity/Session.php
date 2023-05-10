@@ -216,29 +216,6 @@ class Session
      */
   
 
-
-    // public function addProgramme(Programme $programme): self
-    // {
-    //     if (!$this->programmes->contains($programme)) {
-    //         $this->programmes->add($programme);
-    //         $programme->setSession($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeProgramme(Programme $programme): self
-    // {
-    //     if ($this->programmes->removeElement($programme)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($programme->getSession() === $this) {
-    //             $programme->setSession(null);
-    //         }
-    //     }
-
-    //     return $this;
-    // }
-
     /** Methode personnelle */
     
     public function getFrenchStartDate()

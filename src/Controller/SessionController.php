@@ -92,10 +92,10 @@ class SessionController extends AbstractController
 
     //**Ajouter ou supprimer un module de la programmation */
     //* voir Session Entity : methode removeProgramme
-    #[Route("/session/removeProgramme/{idS}/{idM}", name: 'removeProgramme')]
+    #[Route("/session/removeProgramme/{idS}/{idP}", name: 'removeProgramme')]
     
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
-    #[ParamConverter("module", options:["mapping"=>["idM"=>"id"]])]
+    #[ParamConverter("programme", options:["mapping"=>["idP"=>"id"]])]
         
     public function removeProgramme(ManagerRegistry $doctrine, Session $session, Programme $programme)
     {
@@ -109,20 +109,18 @@ class SessionController extends AbstractController
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
 
-    //* voir Session Entity : methode addProgramme
-    #[Route("/session/addProgramme/{idS}/{idM}", name: 'addProgramme')]
+    // //* voir Session Entity : methode addProgramme
+    #[Route("/session/addProgramme/{idS}/{idP}", name: 'addProgramme')]
 
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
-    #[ParamConverter("module", options:["mapping"=>["idM"=>"id"]])]
+    #[ParamConverter("programme", options:["mapping"=>["idP"=>"id"]])]
     
     public function addProgramme(ManagerRegistry $doctrine, Session $session, Programme $programme)
-
     {
         $em = $doctrine->getManager();
         $session->addProgramme($programme);
         $em->persist($session);
         $em->flush();
-    
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
 

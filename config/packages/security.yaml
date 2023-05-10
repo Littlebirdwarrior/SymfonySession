@@ -1,26 +1,55 @@
+#Le fichier security.yaml est utilisé pour configurer les fonctionnalités de sécurité dans Symfony. Ce fichier est divisé en différentes sections, chacune étant responsable d'un aspect spécifique de la sécurité de l'application.
+
+#security : définit les stratégies d'authentification et d'autorisation pour l'ensemble de l'application. Vous pouvez spécifier plusieurs fournisseurs d'authentification, tels que form_login pour l'authentification basée sur un formulaire, http_basic pour l'authentification HTTP de base et guard pour une authentification personnalisée.
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+
+    #encoders : Cette section est utilisée pour configurer les algorithmes de hachage utilisés pour encoder les mots de passe des utilisateurs. Permet spécifier des encodeurs différents pour différents types d'utilisateurs.
+
+    #password_hashers : cette section est utilisée pour configurer les algorithmes de hachage de mot de passe utilisés par l'application (utilise auto pour les utilisateurs implémentant l'interface PasswordAuthenticatedUserInterface.)
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+
+    #providers : définit les sources de données pour les utilisateurs, telles que la base de données ou un fournisseur de mémoire (qui stocke les utilisateurs en mémoire). Permet de pécifier des chaînes de requête SQL pour récupérer les utilisateurs à partir de la base de données. (tilise la classe App\Entity\User pour charger les utilisateurs depuis la base de données.)
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
+
+    #firewalls :  définit les pare-feux de sécurité pour l'application. Chaque pare-feu peut avoir sa propre stratégie d'authentification et d'autorisation. Vous pouvez également définir des règles de contrôle d'accès pour chaque pare-feu. (ici, dev pour les environnements de développement et main pour l'application principale.)
     firewalls:
+
+        #premier pare-feu, nommé "dev", est destiné à être utilisé en environnement de développement et est configuré pour ne pas utiliser de sécurité pour les chemins correspondant au modèle "^/(_(profiler|wdt)|css|images|js)/".
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+    
+        #Le deuxième pare-feu, nommé "main", est le pare-feu principal qui sera utilisé pour l'application en production. 
         main:
+            #le paramètre "lazy: true", signifie que le pare-feu n'est chargé qu'au moment où il est requis pour la première fois, ce qui permet de réduire le temps de démarrage de l'application.
             lazy: true
+            #Il est configuré pour utiliser un fournisseur de données d'utilisateur nommé "app_user_provider", qui spécifie la classe d'entité et la propriété à utiliser pour la recherche d'utilisateurs. 
             provider: app_user_provider
-            custom_authenticator: App\Security\AppAuthenticator
+
+            # custom_authenticator: App\Security\AppAuthenticator
+
+            #Le pare-feu est également configuré pour utiliser une fonctionnalité de déconnexion (logout) qui spécifie l'URL de déconnexion et la page vers laquelle rediriger après la déconnexion.
             logout:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
+               
+
+            pattern: ^/
+
+            form_login:
+                login_path: /login
+                default_target_path: /login
+                always_use_default_target_path: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -28,22 +57,25 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-    # Easy way to control access for large sections of your site
+    # access_control :  pour définir les règles de contrôle d'accès pour chaque pare-feu (chemins d'accès, des rôles et des méthodes HTTP pour chaque règle.) (ici, les utilisateurs avec le rôle ROLE_USER ont accès à toutes les pages du site, tandis que le chemin /login est accessible à tout le monde.)
     # Note: Only the *first* access control that matches will be used
     access_control:
-       - { path: ^/admin, roles: ROLE_ADMIN }
-       - { path: ^/profile, roles: ROLE_USER }
+       - { path: ^/login, roles: PUBLIC_ACCESS }
+       - { path: ^/, roles: ROLE_USER }
+    
+    #Option ici
+    #role_hierarchy : Cette section définit la hiérarchie des rôles pour l'application. Les rôles peuvent être imbriqués les uns dans les autres pour permettre une gestion plus granulaire des autorisations.
         
-
-when@test:
-    security:
-        password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+    #when@test est utilisée pour configurer la sécurité dans un environnement de test en réduisant la charge de hachage pour accélérer les tests.
+    when@test:
+        security:
+            password_hashers:
+                # By default, password hashers are resource intensive and take time. This is
+                # important to generate secure password hashes. In tests however, secure hashes
+                # are not important, waste resources and increase test times. The following
+                # reduces the work factor to the lowest possible values.
+                Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                    algorithm: auto
+                    cost: 4 # Lowest possible value for bcrypt
+                    time_cost: 3 # Lowest possible value for argon
+                    memory_cost: 10 # Lowest possible value for argon

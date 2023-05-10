@@ -129,7 +129,7 @@
                             <td>{{programme.module.category}}</td>
                             <td>{{programme.moduleDuration}} jours</td>
                             <td class="col col-md-3" scope="col">
-                                <a class=" btn btn-outline-danger mx-auto" href="{{ path('removeProgramme', {'idS': session.id, 'idM': programme.module.id}) }}">
+                                <a class=" btn btn-outline-danger mx-auto" href="{{ path('removeProgramme', {'idS': session.id, 'idP': programme.id}) }}">
                                     <i class="bi bi-x-circle"></i>
                                 </a>
                             </td>
@@ -167,8 +167,8 @@
                             <td>{{nonP.module.category}}</td>
                             <td>{{nonP.moduleDuration}} jours</td>
                             <td class="col col-md-3" scope="col">
-                                <a class=" btn btn-outline-success mx-auto" href="{{ path('addProgramme', {'idS': session.id, 'idM': nonP.module.id}) }}">
-                                {{nonP.module.id}}
+                                <a class=" btn btn-outline-success mx-auto" 
+                                href="{{ path('addProgramme', {'idS': session.id, 'idP': nonP.id}) }}">
                                     <i class="bi bi-calendar-plus"></i>
                                 </a>
                             </td>

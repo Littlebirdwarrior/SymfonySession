@@ -40,14 +40,18 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    // méthode onAuthenticationSuccess() est appelée lorsqu'une tentative de connexion réussit, c'est-à-dire que l'utilisateur a été authentifié avec succès.
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // vérifie si une cible de redirection a été définie en appelant la méthode getTargetPath() avec la session et le nom du pare-feu.
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+            
             return new RedirectResponse($targetPath);
         }
 
-        // Redirection si success:
+        // Redirection si success:Si une cible de redirection a été définie, la méthode renvoie une RedirectResponse vers la cible de redirection.
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        // jette simplement une exception pour rappeler au développeur de fournir une redirection valide à l'intérieur de cette méthode.
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
