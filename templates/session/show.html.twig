@@ -167,7 +167,8 @@
                             <td>{{nonP.module.category}}</td>
                             <td>{{nonP.moduleDuration}} jours</td>
                             <td class="col col-md-3" scope="col">
-                                <a class=" btn btn-outline-success mx-auto" href=""{{ path('addProgramme', {'idS': session.id, 'idM': nonP.module.id}) }}">
+                                <a class=" btn btn-outline-success mx-auto" href="{{ path('addProgramme', {'idS': session.id, 'idM': nonP.module.id}) }}">
+                                {{nonP.module.id}}
                                     <i class="bi bi-calendar-plus"></i>
                                 </a>
                             </td>

@@ -178,21 +178,43 @@ class Session
         return $this->programmes;
     }
 
+    /**La méthode addProgramme prend un objet Programme en argument et l'ajoute à la collection programmes si celui-ci n'existe pas encore. 
+     * Elle définit également la propriété Session de l'objet Programme sur la session actuelle. La méthode renvoie ensuite l'instance 
+     * courante de l'objet Session. */
+
     public function addProgramme(Programme $programme): self
     {
         if (!$this->programmes->contains($programme)) {
             $this->programmes->add($programme);
+            $programme->setSession($this);
         }
 
         return $this;
     }
 
+    /**La méthode removeProgramme prend un objet Programme en argument et le supprime de la collection programmes s'il existe. 
+     * Si la propriété Session de l'objet Programme est définie sur la session actuelle, la propriété Session est définie sur null. La méthode renvoie ensuite l'instance courante de l'objet Session. */
+
     public function removeProgramme(Programme $programme): self
     {
-        $this->programmes->removeElement($programme);
+        if ($this->programmes->removeElement($programme)) {
+            
+            if ($programme->getSession() === $this) {
+                $programme->setSession(null);
+            }
+        }
 
         return $this;
     }
+
+    /**!Important / A retenir
+     * Les méthodes contains et removeElement sont fournies par la classe Doctrine\Common\Collections\Collection dans Symfony.
+     * 
+     * La méthode contains permet de vérifier si un élément est présent dans la collection. Elle prend un argument qui représente l'élément à rechercher dans la collection. La méthode retourne true si l'élément est trouvé dans la collection et false sinon.
+     * 
+     * La méthode removeElement permet de supprimer un élément de la collection. Elle prend un argument qui représente l'élément à supprimer de la collection. La méthode retourne true si l'élément a été trouvé et supprimé de la collection, et false sinon.
+     */
+  
 
 
     // public function addProgramme(Programme $programme): self

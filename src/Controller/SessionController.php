@@ -97,11 +97,13 @@ class SessionController extends AbstractController
     #[ParamConverter("session", options:["mapping"=>["idS"=>"id"]])]
     #[ParamConverter("module", options:["mapping"=>["idM"=>"id"]])]
         
-    public function removeProgramme(ManagerRegistry $doctrine, Session $session, Module $module, Programme $programme)
+    public function removeProgramme(ManagerRegistry $doctrine, Session $session, Programme $programme)
     {
         $em = $doctrine->getManager();
         $session->removeProgramme($programme);
+        // persist(entity) : dit à Doctrine de « persister » l'entité. Cela veut dire qu'à partir de maintenant cette entité (qui n'est qu'un simple objet !) est gérée par Doctrine. Cela n'exécute pas encore de requête SQL, ni rien d'autre.
         $em->persist($session);
+        //exécuter effectivement les requêtes nécessaires pour sauvegarder les entités qu'on lui a dit de persister
         $em->flush();
     
     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
